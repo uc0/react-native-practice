@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "react-native-todo",
-    "slug": "react-native-todo",
+    "name": "react-native-hooks",
+    "slug": "react-native-hooks",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/tt.jpeg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
