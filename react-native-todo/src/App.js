@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { StatusBar } from 'react-native'
+import { StatusBar, Dimensions } from 'react-native'
 import styled, { ThemeProvider } from 'styled-components/native'
 import { theme } from './theme'
 import Input from './components/Input'
-import { images } from './images'
-import IconButton from './components/IconButton'
+import Task from './components/Task'
 
 const Container = styled.SafeAreaView`
     flex: 1
@@ -21,12 +20,36 @@ const Title = styled.Text`
     margin: 0px 20px
 `
 
+const List = styled.ScrollView`
+    flex: 1
+    width: ${({ width }) => width -40}px
+`
+
 export default function App() {
     const [newTask, setNewTask] = useState("")
+    const [tasks, setTasks] = useState({
+        '1': {'id': "1", 'text': 'Element-1', "completed": false},
+        '2': {'id': "2", 'text': 'Element-2', "completed": true},
+        '3': {'id': "3", 'text': 'Element-3', "completed": false},
+        '4': {'id': "4", 'text': 'Element-4', "completed": false}
+    })
+
+
+    const width = Dimensions.get('window').width
 
     const _addTask = () => {
-        alert(`Add: ${newTask}`)
-        setNewTask('')
+        const ID = Date.now().toString()
+        const newTaskObject = {
+            [ID]: {id: ID, text: newTask, completed: false}
+        }
+        setNewTask("")
+        setTasks({ ...tasks, ...newTaskObject })
+    }
+
+    const _deleteTask = id => {
+        const currentTasks = Object.assign({}, tasks)
+        delete currentTasks[id]
+        setTasks(currentTasks)
     }
 
     const _handleTextChange = text => {
@@ -39,11 +62,13 @@ export default function App() {
             <StatusBar barStyle="light-content" backgroundColor={theme.background}/>
                 <Title>TODO List</Title>
                 <Input placeholder="+ Add a task.." value={newTask} onChangeText={_handleTextChange} onSubmitEditing={_addTask}/>
-
-                <IconButton type={images.uncompleted}/>
-                <IconButton type={images.completed}/>
-                <IconButton type={images.delete}/>
-                <IconButton type={images.update}/>
+                <List width={width}>
+                    {Object.values(tasks)
+                        .reverse()
+                        .map(item => (
+                            <Task key={item.id} item={item} deleteTask={_deleteTask}/>
+                        ))}
+                </List>
             </Container>
         </ThemeProvider>
     )
