@@ -27,13 +27,13 @@ const List = styled.ScrollView`
 
 export default function App() {
     const [newTask, setNewTask] = useState("")
+
     const [tasks, setTasks] = useState({
         '1': {'id': "1", 'text': 'Element-1', "completed": false},
         '2': {'id': "2", 'text': 'Element-2', "completed": true},
         '3': {'id': "3", 'text': 'Element-3', "completed": false},
         '4': {'id': "4", 'text': 'Element-4', "completed": false}
     })
-
 
     const width = Dimensions.get('window').width
 
@@ -52,6 +52,12 @@ export default function App() {
         setTasks(currentTasks)
     }
 
+    const _toggleTask = id => {
+        const currentTasks = Object.assign({}, tasks)
+        currentTasks[id]['completed'] = !currentTasks[id]['completed']
+        setTasks(currentTasks)
+    }
+
     const _handleTextChange = text => {
         setNewTask(text)
     }
@@ -66,7 +72,7 @@ export default function App() {
                     {Object.values(tasks)
                         .reverse()
                         .map(item => (
-                            <Task key={item.id} item={item} deleteTask={_deleteTask}/>
+                            <Task key={item.id} item={item} deleteTask={_deleteTask} toggleTask={_toggleTask}/>
                         ))}
                 </List>
             </Container>
