@@ -1,5 +1,9 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import User from './components/User'
+import Input from './components/Input'
+import UserContext from './contexts/User'
+import { UserProvider } from './contexts/User'
 
 const Container = styled.View`
     flex: 1;
@@ -9,7 +13,14 @@ const Container = styled.View`
 `
 
 const App = () => {
-    return <Container></Container>
+    return (
+        <UserProvider>
+            <Container>
+                <User />
+                <Input/>
+            </Container>
+        </UserProvider>
+    )
 }
 
 export default App
